@@ -12,7 +12,7 @@
 // y position of waveform
 2 => float WAVEFORM_Y;
 // y position of spectrum
--2.5 => float SPECTRUM_Y;
+0 => float SPECTRUM_Y;
 // width of waveform and spectrum display
 10 => float DISPLAY_WIDTH;
 // waterfall depth
@@ -74,8 +74,8 @@ class Waterfall extends GGen
     // lines
     GLines wfl[WATERFALL_DEPTH];
     // color
-    @(.4, 1, .4) => vec3 color;
-    
+    @(0, 0, 0) => vec3 color;
+
     // iterate over line GGens
     for( GLines w : wfl )
     {
@@ -84,7 +84,7 @@ class Waterfall extends GGen
         // color
         w.mat().color( @(.4, 1, .4) );
     }
-    
+
     // copy
     fun void latest( vec3 positions[] )
     {
@@ -95,7 +95,7 @@ class Waterfall extends GGen
         // wrap it
         WATERFALL_DEPTH %=> playhead;
     }
-    
+
     // update
     fun void update( float dt )
     {
@@ -172,7 +172,7 @@ fun void map2spectrum( complex in[], vec3 out[] )
         // increment
         i++;
     }
-    
+
     waterfall.latest( out );
 }
 
@@ -216,9 +216,71 @@ fun void controlSine( Osc s )
 }
 // spork ~ controlSine( sine );
 
+
+// geometries
+SphereGeometry sphere;
+CircleGeometry bubble;
+BoxGeometry cube;
+TorusGeometry torus;
+
+// materials
+PhongMaterial normalMat;
+normalMat.polygonMode(Material.POLYGON_FILL);
+normalMat.specular(@(0.10, 0.30, 0.8));
+
+// setting up teapot
+GGen teapot;
+teapot.position(@(-4.3, 2, 0));
+
+// pot
+GMesh pot;
+pot.set(sphere, normalMat);
+pot --> teapot;
+pot.position(@(0, 0, 1));
+pot.scale(@(4.0, 3.8,4.0));
+
+// spout
+GMesh spout;
+spout.set(cube, normalMat);
+spout --> teapot;
+spout.position(@(1.65, -0.3, 1));
+spout.scale(@(3.0, 0.5,0.65));
+spout.rotX(20);
+spout.rotY(-15);
+
+// top
+GMesh top;
+top.set(sphere,normalMat);
+top.position(@(0.3, 1.5, 2));
+top.scale(@(2.5, .4,1));
+top --> teapot;
+
+// hat of teapot
+GMesh hat;
+hat.set(sphere, normalMat);
+hat.position(@(0.3, 1.8, 2));
+hat.scale(@(0.5, 0.5,0.5));
+hat --> teapot;
+
+GMesh handle;
+// making the torus a skinny legend
+torus.set(0.9, 0.15, 360, 360, 180);
+handle.set(torus,normalMat);
+handle.position(@(-1.5, 0.2, 2));
+handle --> teapot;
+
+teapot --> GG.scene();
+teapot.scale(@(0.5, 0.5, 0.5));
+waterfall --> GG.scene();
+
+teapot.position(@(0,0,1));
+
+
 // graphics render loop
 while( true )
 {
+    GG.dt() => float dt;  // get delta time
+    pouring.rotY(.5 * dt);
     // map to interleaved format
     map2waveform( samples, positions );
     // set the mesh position
@@ -227,4 +289,6 @@ while( true )
     map2spectrum( response, positions );
     // next graphics frame
     GG.nextFrame() => now;
+    
 }
+	
