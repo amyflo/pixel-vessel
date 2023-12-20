@@ -3,8 +3,7 @@
 # Pixel Vessel
 Pixel Vessel was created for CS476A at Stanford University. It is an audiovisual narrative and real-time audiovisualizer. "Pixel Vessel" is about passage of time and the fluidity of water. The teapot, which serves as the focal point, appears to be enveloped by an ever-changing, fluid-like 'water' created using the time-domain waterform. The magnitude spectrum waterfall is represented through the billowing steam that arises from the teapot. The teapot has been ensnared in a visual whirlpool of pixels, an unsettling portrayal that challenges conventional calm, zen representations of teatime. 'Pixel Vessel' brews together the orderly and the chaotic, the traditional and the digital, inviting you to meditate to the sublime. 
 
-[Watch the demo on YouTube](https://youtu.be/okxL4PZTg54)
-[Learn more about this project on Medium](https://amyflo.medium.com/pixel-vessel-cs476a-hw-2-sound-peeking-34d537d4ea5e)
+[Watch the demo on YouTube](https://youtu.be/okxL4PZTg54) | [Learn more about this project on Medium](https://amyflo.medium.com/pixel-vessel-cs476a-hw-2-sound-peeking-34d537d4ea5e)
 
 ## Instructions
 -  [Install Chuck and ChuGL's latest release](https://chuck.stanford.edu/chugl/)
